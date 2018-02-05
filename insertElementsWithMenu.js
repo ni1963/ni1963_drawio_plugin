@@ -36,7 +36,7 @@ Draw.loadPlugin(function(ui) {
         var theGraph = ui.editor.graph;
         if(theGraph.isEnabled() && !theGraph.isCellLocked(theGraph.getDefaultParent())){
           var pos=theGraph.getInsertPoint();
-          var newElement=new mxCell("",
+          var newElement=new mxCell("test_text",
                     new mxGeometry(pos.x, pos.y, 80, 80),
                     "text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=auto");
         
