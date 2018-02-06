@@ -15,6 +15,7 @@ Draw.loadPlugin(function(ui) {
     // Adds resources for actions
     mxResources.parse('myInsertText=Insert text element');
     mxResources.parse('myInsertEllipse=Insert ellipse');
+    mxResources.parse('test=test');
     
     // Adds action : myInsertEllipse
     ui.actions.addAction('myInsertEllipse', function() {
@@ -47,10 +48,24 @@ Draw.loadPlugin(function(ui) {
     
     ui.keyHandler.bindAction(84, !0, "myInsertText", !0);
     
+    
+    //test
+    ui.actions.addAction('test', function() {
+        // Check for the various File API support.
+		if (window.File && window.FileReader && window.FileList && window.Blob) {
+		  // Great success! All the File APIs are supported.
+		  alert('success');
+		} else {
+		  alert('The File APIs are not fully supported in this browser.');
+		}
+    }, null, null, "Ctrl+Shift+E");
+    ui.keyHandler.bindAction(69, !0, "myInsertText", !0);
+    
     // Adds menu
     ui.menubar.addMenu('My Menu', function(menu, parent) {
         ui.menus.addMenuItem(menu, 'myInsertText');
         ui.menus.addMenuItem(menu, 'myInsertEllipse');
+        ui.menus.addMenuItem(menu, 'test');
     });
 
     // Reorders menubar
