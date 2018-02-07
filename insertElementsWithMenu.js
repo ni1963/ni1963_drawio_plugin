@@ -60,9 +60,6 @@ Draw.loadPlugin(function(ui) {
 		}
 		
 		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-		function onInitFs(fs) {
-		  console.log('Opened file system: ' + fs.name);
-		}
 		
 		function errorHandler(e) {
 		  var msg = '';
@@ -90,8 +87,33 @@ Draw.loadPlugin(function(ui) {
 
 		  console.log('Error: ' + msg);
 		}
+		
+		
+		function onInitFs(fs) {
 
-		window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
+		  fs.root.getFile('log.txt', {create: true, exclusive: true}, function(fileEntry) {
+
+		    // fileEntry.isFile === true
+		    // fileEntry.name == 'log.txt'
+		    // fileEntry.fullPath == '/log.txt'
+
+		  }, errorHandler);
+
+		}
+
+		window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+		
+		
+
+		//window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
+		
+		//ストレージ　クオータを要求する？
+		window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
+		  window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+		}, function(e) {
+		  console.log('Error', e);
+		});
+		
     }, null, null, "Ctrl+Shift+E");
     ui.keyHandler.bindAction(69, !0, "test", !0);
     
