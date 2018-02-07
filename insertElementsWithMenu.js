@@ -59,7 +59,7 @@ Draw.loadPlugin(function(ui) {
 		  alert('The File APIs are not fully supported in this browser.');
 		}
     }, null, null, "Ctrl+Shift+E");
-    ui.keyHandler.bindAction(69, !0, "myInsertText", !0);
+    ui.keyHandler.bindAction(69, !0, "test", !0);
     
     // Adds menu
     ui.menubar.addMenu('My Menu', function(menu, parent) {
