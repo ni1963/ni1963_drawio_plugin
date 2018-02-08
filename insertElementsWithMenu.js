@@ -103,7 +103,7 @@ Draw.loadPlugin(function(ui) {
 
 		}
 
-		window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+		//window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
 		
 		
 
