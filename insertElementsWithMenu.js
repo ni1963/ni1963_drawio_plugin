@@ -61,62 +61,18 @@ Draw.loadPlugin(function(ui) {
 		
 		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 		
-		console.log(window.requestFileSystem)
-		
-		function errorHandler(e) {
-		  var msg = '';
+		function onError () { console.log ('Error : ', arguments); }
 
-		  console.log('Error: ' + e.code);
+		navigator.webkitPersistentStorage.requestQuota (1024*1024*1024, function(grantedBytes) {
+		  console.log ('requestQuota: ', arguments);
+		  requestFS(grantedBytes);
+		}, onError);
+
+		function requestFS(grantedBytes) {
+		  window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, function(fs) {
+		    console.log ('fs: ', arguments); // I see this on Chrome 27 in Ubuntu
+		  }, onError);
 		}
-		
-		
-		function onInitFs(fs) {
-
-		  fs.root.getFile('log.txt', {create: true, exclusive: true}, function(fileEntry) {
-
-	        fileEntry.file(function(file) {
-		       var reader = new FileReader();
-
-		       console.log(reader)
-
-		       reader.readAsText(file);
-		    }, errorHandler);
-
-		    console.log(fileEntry.name)
-		    console.log(fileEntry.fullPath)
-		    fileEntry.createWriter(function(fileWriter) {
-
-		      fileWriter.onwriteend = function(e) {
-		        console.log('Write completed.');
-		      };
-
-		      fileWriter.onerror = function(e) {
-		        console.log('Write failed: ' + e.toString());
-		      };
-
-		      // Create a new Blob and write it to log.txt.
-		      var bb = new BlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
-		      bb.append('Lorem Ipsum');
-		      fileWriter.write(bb.getBlob('text/plain'));
-
-		    }, errorHandler);
-
-		  }, errorHandler);
-
-		}
-
-		window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
-		
-		
-
-		//window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
-		
-		//ストレージ　クオータを要求する？
-		//.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
-		//  window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
-		//}, function(e) {
-		//  console.log('Error', e);
-		//});
 		
     }, null, null, "Ctrl+Shift+E");
     ui.keyHandler.bindAction(69, !0, "test", !0);
