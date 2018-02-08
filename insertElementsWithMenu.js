@@ -61,6 +61,8 @@ Draw.loadPlugin(function(ui) {
 		
 		window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 		
+		console.log(window.requestFileSystem)
+		
 		function errorHandler(e) {
 		  var msg = '';
 
@@ -103,18 +105,18 @@ Draw.loadPlugin(function(ui) {
 
 		}
 
-		//window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+		window.requestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
 		
 		
 
 		//window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
 		
 		//ストレージ　クオータを要求する？
-		window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
-		  window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
-		}, function(e) {
-		  console.log('Error', e);
-		});
+		//.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
+		//  window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+		//}, function(e) {
+		//  console.log('Error', e);
+		//});
 		
     }, null, null, "Ctrl+Shift+E");
     ui.keyHandler.bindAction(69, !0, "test", !0);
