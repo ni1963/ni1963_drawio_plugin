@@ -72,9 +72,32 @@ Draw.loadPlugin(function(ui) {
 
 		  fs.root.getFile('log.txt', {create: true, exclusive: true}, function(fileEntry) {
 
-		    // fileEntry.isFile === true
-		    // fileEntry.name == 'log.txt'
-		    // fileEntry.fullPath == '/log.txt'
+	        fileEntry.file(function(file) {
+		       var reader = new FileReader();
+
+		       console.log(reader)
+
+		       reader.readAsText(file);
+		    }, errorHandler);
+
+		    console.log(fileEntry.name)
+		    console.log(fileEntry.fullPath)
+		    fileEntry.createWriter(function(fileWriter) {
+
+		      fileWriter.onwriteend = function(e) {
+		        console.log('Write completed.');
+		      };
+
+		      fileWriter.onerror = function(e) {
+		        console.log('Write failed: ' + e.toString());
+		      };
+
+		      // Create a new Blob and write it to log.txt.
+		      var bb = new BlobBuilder(); // Note: window.WebKitBlobBuilder in Chrome 12.
+		      bb.append('Lorem Ipsum');
+		      fileWriter.write(bb.getBlob('text/plain'));
+
+		    }, errorHandler);
 
 		  }, errorHandler);
 
