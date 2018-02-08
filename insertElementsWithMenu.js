@@ -78,11 +78,11 @@ Draw.loadPlugin(function(ui) {
 		    console.log(fileEntry.isFile); // true
 		    console.log(fileEntry.name); // log.txt 
 		    console.log(fileEntry.fullPath); // /log.txt 
+		    
 		  }, onError);
-		}
-		
-		
-		fs.root.getFile('log.txt', {}, function(fileEntry) {
+		  
+		  
+		  fs.root.getFile('log.txt', {}, function(fileEntry) {
 
 		    // Get a File object representing the file,
 		    // then use FileReader to read its contents.
@@ -99,9 +99,9 @@ Draw.loadPlugin(function(ui) {
 		    }, onError);
 
 		  }, onError);
-		  
-		  
-		fs.root.getFile('log.txt', {create: true}, function(fileEntry) {
+			  
+			  
+		  fs.root.getFile('log.txt', {create: true}, function(fileEntry) {
 
 		    // Create a FileWriter object for our FileEntry (log.txt).
 		    fileEntry.createWriter(function(fileWriter) {
@@ -119,6 +119,10 @@ Draw.loadPlugin(function(ui) {
 		      fileWriter.write(bb);
 		    }, onError);
 		  }, onError);
+		}
+		
+		
+		
     }, null, null, "Ctrl+Shift+E");
     ui.keyHandler.bindAction(69, !0, "test", !0);
     
