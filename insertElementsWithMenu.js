@@ -69,11 +69,56 @@ Draw.loadPlugin(function(ui) {
 		}, onError);
 
 		function requestFS(grantedBytes) {
-		  window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, function(fs) {
-		    console.log ('fs: ', arguments); // I see this on Chrome 27 in Ubuntu
+		  window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, onInitFs, onError);
+		}
+
+		function onInitFs(fs) {
+		  // getFile の第2引数で「create: true」を付けるとファイルを新規作成する。
+		  fs.root.getFile('log.txt', {create: true, exclusive: true}, function(fileEntry) {
+		    console.log(fileEntry.isFile); // true
+		    console.log(fileEntry.name); // log.txt 
+		    console.log(fileEntry.fullPath); // /log.txt 
 		  }, onError);
 		}
 		
+		
+		fs.root.getFile('log.txt', {}, function(fileEntry) {
+
+		    // Get a File object representing the file,
+		    // then use FileReader to read its contents.
+		    fileEntry.file(function(file) {
+		       console.log(file);
+		       var reader = new FileReader();
+
+		       reader.onloadend = function(e) {
+		         var txtArea = document.createElement('textarea');
+		         txtArea.value = this.result;
+		         document.body.appendChild(txtArea);
+		       };
+		       reader.readAsText(file);
+		    }, onError);
+
+		  }, onError);
+		  
+		  
+		fs.root.getFile('log.txt', {create: true}, function(fileEntry) {
+
+		    // Create a FileWriter object for our FileEntry (log.txt).
+		    fileEntry.createWriter(function(fileWriter) {
+
+		      fileWriter.onwriteend = function(e) {
+		        console.log('Write completed.');
+		      };
+
+		      fileWriter.onerror = function(e) {
+		        console.log('Write failed: ' + e.toString());
+		      };
+
+		      // Create a new Blob and write it to log.txt.
+		      var bb = new Blob(['Lorem Ipsum']);
+		      fileWriter.write(bb);
+		    }, onError);
+		  }, onError);
     }, null, null, "Ctrl+Shift+E");
     ui.keyHandler.bindAction(69, !0, "test", !0);
     
