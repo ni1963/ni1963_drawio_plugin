@@ -20,6 +20,7 @@ Draw.loadPlugin(function(ui) {
     // Adds action : myInsertEllipse
     ui.actions.addAction('myInsertEllipse', function() {
         var theGraph = ui.editor.graph;
+        console.log ( ui.editor.graph );
         if(theGraph.isEnabled() && !theGraph.isCellLocked(theGraph.getDefaultParent())){
           var pos=theGraph.getInsertPoint();
           var newElement=new mxCell("",
