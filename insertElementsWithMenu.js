@@ -23,6 +23,7 @@ Draw.loadPlugin(function(ui) {
         console.log ( ui.editor.graph );
         if(theGraph.isEnabled() && !theGraph.isCellLocked(theGraph.getDefaultParent())){
           var pos=theGraph.getInsertPoint();
+          console.log(pos);
           var newElement=new mxCell("",
                     new mxGeometry(pos.x, pos.y, 10, 10),
                     "ellipse;whiteSpace=wrap;html=1;");
