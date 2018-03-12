@@ -21,6 +21,7 @@ Draw.loadPlugin(function(ui) {
     ui.actions.addAction('myInsertEllipse', function() {
         var theGraph = ui.editor.graph;
         console.log ( ui.editor.graph );
+        console.log(ui.editor.graph.model.cells[10].value);
         if(theGraph.isEnabled() && !theGraph.isCellLocked(theGraph.getDefaultParent())){
           var pos=theGraph.getInsertPoint();
           console.log(pos);
